@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1564367606800" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
+  <error errorCode="errorCode" id="ERR_1" name="errorName"/>
+  <signal id="SIG_1" name="signal"/>
+  <process id="vacation" isClosed="false" isExecutable="true" name="vacation" processType="None">
+    <startEvent id="开始" name="开始"/>
+    <userTask activiti:assignee="${assignee.getUserId()}" activiti:exclusive="true" id="员工申请" name="员工申请"/>
+    <userTask activiti:assignee="hr" activiti:candidateGroups="hr" activiti:exclusive="true" id="人事审批" name="人事审批"/>
+    <userTask activiti:assignee="boss" activiti:candidateGroups="boss" activiti:exclusive="true" id="老板审批" name="老板审批"/>
+    <endEvent id="结束1" name="结束1"/>
+    <callActivity activiti:exclusive="true" calledElement="subvacation" id="服务调用" name="服务调用"/>
+    <exclusiveGateway gatewayDirection="Unspecified" id="是否通过" name="是否通过"/>
+    <subProcess activiti:exclusive="true" id="子流程" name="子流程" triggeredByEvent="true">
+      <startEvent id="错误开始" name="错误开始">
+        <errorEventDefinition errorRef="ERR_1" id="_4_ED_1"/>
+      </startEvent>
+      <endEvent id="结束2" name="结束2"/>
+      <userTask activiti:exclusive="true" id="错误开始成功" name="错误开始成功"/>
+      <sequenceFlow id="_5" sourceRef="错误开始" targetRef="错误开始成功"/>
+      <sequenceFlow id="_6" sourceRef="错误开始成功" targetRef="结束2"/>
+    </subProcess>
+    <sequenceFlow id="_9" sourceRef="开始" targetRef="员工申请"/>
+    <sequenceFlow id="_10" sourceRef="员工申请" targetRef="老板审批"/>
+    <sequenceFlow id="_11" sourceRef="老板审批" targetRef="人事审批"/>
+    <sequenceFlow id="_12" sourceRef="人事审批" targetRef="是否通过"/>
+    <sequenceFlow id="_14" sourceRef="是否通过" targetRef="服务调用">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${bool=='y'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_16" sourceRef="服务调用" targetRef="结束1"/>
+    <endEvent id="错误结束" name="错误结束">
+      <errorEventDefinition errorRef="ERR_1" id="_28_ED_1"/>
+    </endEvent>
+    <sequenceFlow id="_2" sourceRef="是否通过" targetRef="错误结束"/>
+  </process>
+  <bpmndi:BPMNDiagram documentation="background=#3C3F41;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
+    <bpmndi:BPMNPlane bpmnElement="vacation">
+      <bpmndi:BPMNShape bpmnElement="开始" id="Shape-开始">
+        <omgdc:Bounds height="32.0" width="32.0" x="15.0" y="125.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="员工申请" id="Shape-员工申请">
+        <omgdc:Bounds height="55.0" width="105.0" x="115.0" y="110.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="105.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="人事审批" id="Shape-人事审批">
+        <omgdc:Bounds height="55.0" width="105.0" x="475.0" y="110.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="105.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="老板审批" id="Shape-老板审批">
+        <omgdc:Bounds height="55.0" width="105.0" x="295.0" y="110.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="105.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="结束1" id="Shape-结束1">
+        <omgdc:Bounds height="32.0" width="32.0" x="975.0" y="55.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="服务调用" id="Shape-服务调用" isExpanded="false">
+        <omgdc:Bounds height="65.0" width="105.0" x="790.0" y="40.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="65.0" width="105.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="是否通过" id="Shape-是否通过" isMarkerVisible="false">
+        <omgdc:Bounds height="32.0" width="32.0" x="655.0" y="125.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="子流程" id="Shape-子流程" isExpanded="true">
+        <omgdc:Bounds height="240.0" width="640.0" x="185.0" y="265.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="240.0" width="640.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="错误结束" id="Shape-错误结束">
+        <omgdc:Bounds height="32.0" width="32.0" x="975.0" y="175.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="错误开始" id="Shape-错误开始">
+        <omgdc:Bounds height="32.0" width="32.0" x="240.0" y="360.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="结束2" id="Shape-结束2">
+        <omgdc:Bounds height="32.0" width="32.0" x="735.0" y="365.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="错误开始成功" id="Shape-错误开始成功">
+        <omgdc:Bounds height="55.0" width="85.0" x="455.0" y="355.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_12" id="BPMNEdge__12" sourceElement="人事审批" targetElement="是否通过">
+        <omgdi:waypoint x="580.0" y="137.5"/>
+        <omgdi:waypoint x="655.0" y="141.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_14" id="BPMNEdge__14" sourceElement="是否通过" targetElement="服务调用">
+        <omgdi:waypoint x="687.0" y="141.0"/>
+        <omgdi:waypoint x="790.0" y="72.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_16" id="BPMNEdge__16" sourceElement="服务调用" targetElement="结束1">
+        <omgdi:waypoint x="895.0" y="72.5"/>
+        <omgdi:waypoint x="975.0" y="71.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_2" id="BPMNEdge__2" sourceElement="是否通过" targetElement="错误结束">
+        <omgdi:waypoint x="687.0" y="141.0"/>
+        <omgdi:waypoint x="975.0" y="191.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_5" id="BPMNEdge__5" sourceElement="错误开始" targetElement="错误开始成功">
+        <omgdi:waypoint x="272.0" y="376.0"/>
+        <omgdi:waypoint x="455.0" y="382.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="错误开始成功" targetElement="结束2">
+        <omgdi:waypoint x="540.0" y="382.5"/>
+        <omgdi:waypoint x="735.0" y="381.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_9" id="BPMNEdge__9" sourceElement="开始" targetElement="员工申请">
+        <omgdi:waypoint x="47.0" y="141.0"/>
+        <omgdi:waypoint x="115.0" y="137.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_11" id="BPMNEdge__11" sourceElement="老板审批" targetElement="人事审批">
+        <omgdi:waypoint x="400.0" y="137.5"/>
+        <omgdi:waypoint x="475.0" y="137.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_10" id="BPMNEdge__10" sourceElement="员工申请" targetElement="老板审批">
+        <omgdi:waypoint x="220.0" y="137.5"/>
+        <omgdi:waypoint x="295.0" y="137.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

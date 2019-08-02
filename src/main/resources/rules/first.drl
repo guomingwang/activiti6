@@ -1,0 +1,8 @@
+package com.activiti6.bean;
+
+rule "Test Rule"
+    when
+        Person(name == "Crazyit");
+    then
+        System.out.println("Welcome to Drools");
+end
